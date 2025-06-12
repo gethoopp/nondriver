@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "186080757057",
+    "project_id": "nondriver",
+    "storage_bucket": "nondriver.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:186080757057:android:c0dba29daf16d41cea4dc0",
+        "android_client_info": {
+          "package_name": "com.application.ondriver"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDIOtUp4ThUqB0yI_PqW3kxVwCo8jxQcxA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:186080757057:android:b74ec4d2b7518a53ea4dc0",
+        "android_client_info": {
+          "package_name": "com.example.ondriver"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDIOtUp4ThUqB0yI_PqW3kxVwCo8jxQcxA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
