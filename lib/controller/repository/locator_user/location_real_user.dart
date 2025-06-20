@@ -28,6 +28,17 @@ class LocationRealUser implements BaseLocationUser {
   }
 
   @override
+  Future<Position> getLocationUserPosition() async {
+    try {
+      return await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high,
+      );
+    } catch (e) {
+      throw Exception('Gagal mendapatkan lokasi: $e');
+    }
+  }
+
+  @override
   Future<bool> getPermisionLocation() async {
     bool serviceEnabled;
     LocationPermission permission;

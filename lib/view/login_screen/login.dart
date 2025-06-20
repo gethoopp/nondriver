@@ -1,4 +1,3 @@
-import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ondriver/Asset/asset.dart';
@@ -55,17 +54,37 @@ class _LoginScreenUserState extends State<_LoginScreenUser> {
         }
 
         if (state is UserCubitSuccesState) {
-          Future.delayed(Duration(seconds: 1), () {
-            AwesomeDialog(
-              // ignore: use_build_context_synchronously
-              context: context,
-              title: 'Success',
-              desc: 'Berhasil Masuk',
-              dialogType: DialogType.success,
-            ).show();
-          });
+          // Future.delayed(Duration(seconds: 1), () {
+          //   if (mounted) {
+          //     AwesomeDialog(
+          //       // ignore: use_build_context_synchronously
+          //       context: context,
+          //       title: 'Success',
+          //       desc: 'Berhasil Masuk',
+          //       dialogType: DialogType.success,
+          //     ).show();
+          //   }
+          // });
 
-          Navigator.pushNamed(context, Routes.dashboard);
+          if (emailController.text == 'user1@gmail.com') {
+            Navigator.pushNamedAndRemoveUntil(
+              context,
+              Routes.dashboard,
+              (route) => false,
+            );
+          } else if (emailController.text == 'resto1@gmail.com') {
+            Navigator.pushNamedAndRemoveUntil(
+              context,
+              Routes.dashBoardResto,
+              (route) => false,
+            );
+          } else if (emailController.text == 'driver1@gmail.com') {
+            Navigator.pushNamedAndRemoveUntil(
+              context,
+              Routes.dashBordDriver,
+              (route) => false,
+            );
+          }
         }
 
         if (state is UserErrorState) {
@@ -185,28 +204,6 @@ class _LoginScreenUserState extends State<_LoginScreenUser> {
                 colorbtn: Colors.transparent,
                 null,
                 textColor: Colors.black,
-              ),
-            ),
-
-            Padding(
-              padding: EdgeInsets.only(top: size.height * 0.05),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text("Didn't have account?"),
-                  const SizedBox(width: 5),
-                  InkWell(
-                    onTap: () {
-                      Navigator.pushNamed(context, Routes.register);
-                      emailController.clear();
-                      passController.clear();
-                    },
-                    child: Text(
-                      'Register',
-                      style: GoogleFonts.outfit(color: Colors.blue),
-                    ),
-                  ),
-                ],
               ),
             ),
           ],

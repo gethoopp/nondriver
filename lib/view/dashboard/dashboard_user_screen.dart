@@ -4,10 +4,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ondriver/Asset/asset.dart';
+import 'package:ondriver/components/routes.dart';
 import 'package:ondriver/controller/bloc/chinese_food_cubit/chinesee_food_cubit_cubit.dart';
 import 'package:ondriver/controller/bloc/locationRealUser/location_real_user_cubit.dart';
+import 'package:ondriver/controller/isar_controller/add_item.dart';
 import 'package:ondriver/controller/repository/chinesse_food_repository/chinesee.dart';
 import 'package:ondriver/controller/repository/locator_user/location_user.dart';
+import 'package:ondriver/schema/chinesee_food_item.dart';
 import 'package:ondriver/widget/button_search.dart';
 import 'package:ondriver/widget/fading_dots.dart';
 
@@ -21,7 +24,8 @@ class DashboardUserScreen extends StatelessWidget {
       value: chineseeFoodRepository,
       child: BlocProvider(
         create: (context) =>
-            ChineseeFoodCubitCubit(chineseeFoodRepository)..getListChineseFood,
+            ChineseeFoodCubitCubit(chineseeFoodRepository)
+              ..getListChineseFood(),
         child: DashboardUser(),
       ),
     );
@@ -297,29 +301,179 @@ class _DashboardUserState extends State<DashboardUser> {
                     ],
                   ),
                 ),
-
+                SizedBox(height: 20.h),
                 //content view
-                Expanded(
+                SizedBox(
+                  height: 250.h,
                   child: TabBarView(
                     children: [
                       // Tab 1: Foods
-                      ListView(
-                        scrollDirection: Axis.horizontal,
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        children: List.generate(
-                          3,
-                          (index) => Container(
-                            width: 150,
-                            height: 200,
-                            margin: const EdgeInsets.only(
-                              right: 12,
-                            ), // jarak antar item
-                            decoration: BoxDecoration(
-                              color: Colors.blue[(index + 1) * 200],
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                          ),
-                        ),
+                      BlocBuilder<
+                        ChineseeFoodCubitCubit,
+                        ChineseeFoodCubitState
+                      >(
+                        builder: (context, state) {
+                          if (state is ChineseeFoodCubitSuccesState) {
+                            return ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 16,
+                              ),
+                              itemCount: state.chineseListfood.length,
+                              itemBuilder: (context, index) {
+                                final food = state.chineseListfood[index];
+                                return InkWell(
+                                  onTap: () => Navigator.pushNamed(
+                                    context,
+                                    Routes.detailCart,
+                                  ),
+                                  child: Card(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                      side: BorderSide(
+                                        color: Colors.grey,
+                                        width: 0.5,
+                                      ),
+                                    ),
+                                    child: Container(
+                                      width: 160,
+
+                                      padding: const EdgeInsets.all(12),
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(12),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.black12,
+                                            blurRadius: 8,
+                                            offset: Offset(0, 2),
+                                          ),
+                                        ],
+                                      ),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          // Rating
+                                          Row(
+                                            children: [
+                                              Icon(
+                                                Icons.star,
+                                                color: Colors.orange,
+                                                size: 14,
+                                              ),
+                                              SizedBox(width: 4),
+                                              Text(
+                                                "4.5", // contoh: 4.5
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          SizedBox(height: 6),
+
+                                          // Gambar
+                                          Center(
+                                            child: Image.asset(
+                                              Asset.imageBurger,
+                                              width: 80,
+                                              height: 80,
+                                              fit: BoxFit.contain,
+                                            ),
+                                          ),
+                                          SizedBox(height: 8),
+
+                                          // Nama makanan
+                                          Text(
+                                            food.name!, // contoh: 'Chicken burger'
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 14,
+                                            ),
+                                          ),
+                                          SizedBox(height: 4),
+
+                                          // Deskripsi
+                                          Text(
+                                            food.description!,
+                                            style: TextStyle(
+                                              fontSize: 10,
+                                              color: Colors.grey[600],
+                                            ),
+                                            maxLines: 2,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                          SizedBox(height: 20),
+
+                                          // Harga dan tombol
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                '12.000',
+                                                style: TextStyle(
+                                                  fontSize: 13,
+                                                  color: Colors.red,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                              InkWell(
+                                                onTap: () async {
+                                                  final isarService =
+                                                      IsarService();
+                                                  final locationService =
+                                                      LocationRealUser();
+                                                  final pos = await locationService
+                                                      .getLocationUserPosition();
+                                                  final items =
+                                                      ChineseeFoodItem()
+                                                        ..id = food.id!
+                                                        ..price = 12.000
+                                                        ..quantity = 1
+                                                        ..title = food.name!
+                                                        ..userLat = pos.latitude
+                                                        ..userLong =
+                                                            pos.longitude;
+
+                                                  await isarService
+                                                      .sendDataOrder(items);
+                                                },
+                                                child: Container(
+                                                  padding: const EdgeInsets.all(
+                                                    4,
+                                                  ),
+                                                  decoration: BoxDecoration(
+                                                    shape: BoxShape.circle,
+                                                    color: Colors.pinkAccent,
+                                                  ),
+                                                  child: Icon(
+                                                    Icons.add,
+                                                    color: Colors.white,
+                                                    size: 16,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
+                            );
+                          }
+
+                          if (state is ChineseeFoodErrorState) {
+                            return Center(
+                              child: Text('Tidak Dapat Mengambil Data'),
+                            );
+                          }
+
+                          return SizedBox.shrink();
+                        },
                       ),
 
                       // Tab 2: Drinks

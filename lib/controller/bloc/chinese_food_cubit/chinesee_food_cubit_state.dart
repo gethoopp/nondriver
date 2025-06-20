@@ -6,7 +6,7 @@ sealed class ChineseeFoodCubitState {}
 final class ChineseeFoodCubitLoaded extends ChineseeFoodCubitState {}
 
 final class ChineseeFoodCubitSuccesState extends ChineseeFoodCubitState {
-  final dynamic chineseListfood;
+  final List<ChinneseFoodList> chineseListfood;
   ChineseeFoodCubitSuccesState(this.chineseListfood);
 }
 

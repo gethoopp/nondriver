@@ -10,7 +10,7 @@ class ChineseeFoodCubitCubit extends Cubit<ChineseeFoodCubitState> {
   ChineseeFoodCubitCubit(this.chineseeFoodRepository)
     : super(ChineseeFoodCubitLoaded());
 
-  Future<ChinneseFoodList> getListChineseFood() async {
+  Future<List<ChinneseFoodList>> getListChineseFood() async {
     try {
       final result = await chineseeFoodRepository.getChineseeFood();
 

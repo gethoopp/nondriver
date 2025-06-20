@@ -14,7 +14,12 @@ class UserCubitCubit extends Cubit<UserCubitState> {
     try {
       final result = await userRepository.loginUserAuth(email, password);
 
-      emit(UserCubitSuccesState(result));
+      if (result != null) {
+        emit(UserCubitSuccesState(result));
+        return result;
+      } else {
+        emit(UserErrorState('Login gagal: user tidak ditemukan.'));
+      }
     } catch (e) {
       emit(UserErrorState(e.toString()));
     }

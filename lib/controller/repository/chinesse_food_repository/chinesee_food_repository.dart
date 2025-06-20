@@ -1,3 +1,5 @@
+import 'package:ondriver/model/chinnese_food_list.dart';
+
 abstract class ChineseeFoodRepository {
-  Future<dynamic> getChineseeFood();
+  Future<List<ChinneseFoodList>> getChineseeFood();
 }
