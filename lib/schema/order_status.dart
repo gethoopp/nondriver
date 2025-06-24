@@ -6,7 +6,7 @@ part 'order_status.g.dart';
 class OrderStatus {
   Id id = Isar.autoIncrement;
   late String title;
-  late double price;
+  late int price;
   late int quantity;
   late bool statusOrder;
 

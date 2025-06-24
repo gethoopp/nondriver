@@ -430,7 +430,7 @@ class _DashboardUserState extends State<DashboardUser> {
                                                   final items =
                                                       ChineseeFoodItem()
                                                         ..id = food.id!
-                                                        ..price = 12.000
+                                                        ..price = 12000
                                                         ..quantity = 1
                                                         ..title = food.name!
                                                         ..userLat = pos.latitude

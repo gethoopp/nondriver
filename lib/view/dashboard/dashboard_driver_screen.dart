@@ -5,9 +5,11 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:ondriver/Asset/asset.dart';
 import 'package:ondriver/controller/bloc/iser_driver_order/cubit/isar_driver_order_cubit.dart';
 import 'package:ondriver/controller/isar_controller/add_item.dart';
 import 'package:ondriver/controller/repository/route_service/route_services.dart';
+import 'package:ondriver/extension/conver_curreny.dart';
 
 class DriverScreen extends StatelessWidget {
   const DriverScreen({super.key});
@@ -86,8 +88,7 @@ class _DriverDashboardScreenState extends State<DriverDashboardScreen> {
           userPosition,
         );
         if (distance < 20) {
-          print('🔔 Driver has arrived at user location!');
-          return;
+          print("Pesanan anda telah sampai");
         }
       }
     }
@@ -128,7 +129,7 @@ class _DriverDashboardScreenState extends State<DriverDashboardScreen> {
               return Column(
                 children: [
                   SizedBox(
-                    height: 300.h,
+                    height: 400.h,
                     child: FlutterMap(
                       options: MapOptions(
                         initialCenter: driverStart,
@@ -205,7 +206,7 @@ class _DriverDashboardScreenState extends State<DriverDashboardScreen> {
                                 height: 50,
                                 fit: BoxFit.cover,
                                 errorBuilder: (_, __, ___) =>
-                                    const Icon(Icons.image_not_supported),
+                                    Image.asset(Asset.imageBurger),
                               ),
                             ),
                             title: Text(
@@ -218,7 +219,9 @@ class _DriverDashboardScreenState extends State<DriverDashboardScreen> {
                             subtitle: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('Harga: Rp${order.price}'),
+                                Text(
+                                  'Harga:${ConverCurreny().convertCurreny().format(order.price)}',
+                                ),
                                 Text('Jumlah: ${order.quantity}'),
                               ],
                             ),
@@ -235,6 +238,31 @@ class _DriverDashboardScreenState extends State<DriverDashboardScreen> {
                       },
                     ),
                   ),
+
+                  // Padding(
+                  //   padding: EdgeInsets.all(16.0),
+                  //   child: ElevatedButton(
+                  //     onPressed: () {
+                  //       // for (var orderan in items) {
+                  //       //   orderan.statusDeliv = false;
+                  //       // }
+
+                  //       // context.read<IsarDriverOrderCubit>().getActiveOrder();
+                  //     },
+                  //     style: ElevatedButton.styleFrom(
+                  //       backgroundColor: Colors.green,
+                  //       foregroundColor: Colors.white,
+                  //       padding: EdgeInsets.symmetric(
+                  //         horizontal: 24,
+                  //         vertical: 12,
+                  //       ),
+                  //       shape: RoundedRectangleBorder(
+                  //         borderRadius: BorderRadius.circular(8),
+                  //       ),
+                  //     ),
+                  //     child: Text('Pesanan Sampai'),
+                  //   ),
+                  // ),
                 ],
               );
             }

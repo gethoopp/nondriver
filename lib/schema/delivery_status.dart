@@ -6,7 +6,7 @@ part 'delivery_status.g.dart';
 class DeliveryStatus {
   late Id id;
   late String title;
-  late double price;
+  late int price;
   late String image;
   late bool statusDeliv;
   late int quantity;

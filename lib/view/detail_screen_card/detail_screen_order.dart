@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:ondriver/Asset/asset.dart';
 import 'package:ondriver/controller/bloc/isar_local_storage/cubit/order_data_cubit.dart';
 import 'package:ondriver/controller/isar_controller/add_item.dart';
+import 'package:ondriver/extension/conver_curreny.dart';
 import 'package:ondriver/schema/chinesee_food_item.dart';
 import 'package:ondriver/schema/order_status.dart';
 
@@ -98,7 +100,9 @@ class _DetailScreenOrderState extends State<DetailScreenOrder> {
                                     Text("Jumlah: ${item.quantity}"),
                                     const SizedBox(height: 4),
                                     Text(
-                                      "Rp ${item.price.toStringAsFixed(2)}",
+                                      ConverCurreny().convertCurreny().format(
+                                        item.price,
+                                      ),
                                       style: const TextStyle(
                                         fontWeight: FontWeight.bold,
                                         color: Colors.red,
@@ -140,9 +144,9 @@ class PriceSummarySection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final subTotal = orders.fold<double>(0, (sum, item) => sum + item.price);
-    const deliveryCharge = 0.0;
-    const discount = 0.0;
+    final subTotal = orders.fold<int>(0, (sum, item) => sum + item.price);
+    const deliveryCharge = 0;
+    const discount = 0;
     final total = subTotal + deliveryCharge - discount;
 
     return Container(
@@ -216,7 +220,7 @@ class PriceSummarySection extends StatelessWidget {
     );
   }
 
-  Widget _priceRow(String label, double amount, {bool isBold = false}) {
+  Widget _priceRow(String label, int amount, {bool isBold = false}) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 2),
       child: Row(
@@ -231,7 +235,7 @@ class PriceSummarySection extends StatelessWidget {
             ),
           ),
           Text(
-            '\$${amount.toStringAsFixed(2)}',
+            ConverCurreny().convertCurreny().format(amount),
             style: TextStyle(
               color: Colors.white,
               fontWeight: isBold ? FontWeight.bold : FontWeight.normal,

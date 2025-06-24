@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ondriver/Asset/asset.dart';
 import 'package:ondriver/controller/bloc/order_resto/order_resto_cubit.dart';
 import 'package:ondriver/controller/isar_controller/add_item.dart';
+import 'package:ondriver/extension/conver_curreny.dart';
 import 'package:ondriver/schema/delivery_status.dart';
 
 class DashboardRestoScreen extends StatelessWidget {
@@ -70,7 +71,9 @@ class DashboardRestoContent extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
                               Text(
-                                'Rp ${order.price.toStringAsFixed(2) ?? '0'}',
+                                ConverCurreny().convertCurreny().format(
+                                  order.price,
+                                ),
                                 style: const TextStyle(
                                   color: Colors.red,
                                   fontWeight: FontWeight.bold,

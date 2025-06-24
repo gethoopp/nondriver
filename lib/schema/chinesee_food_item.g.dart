@@ -20,7 +20,7 @@ const ChineseeFoodItemSchema = CollectionSchema(
     r'price': PropertySchema(
       id: 0,
       name: r'price',
-      type: IsarType.double,
+      type: IsarType.long,
     ),
     r'quantity': PropertySchema(
       id: 1,
@@ -73,7 +73,7 @@ void _chineseeFoodItemSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeDouble(offsets[0], object.price);
+  writer.writeLong(offsets[0], object.price);
   writer.writeLong(offsets[1], object.quantity);
   writer.writeString(offsets[2], object.title);
   writer.writeDouble(offsets[3], object.userLat);
@@ -88,7 +88,7 @@ ChineseeFoodItem _chineseeFoodItemDeserialize(
 ) {
   final object = ChineseeFoodItem();
   object.id = id;
-  object.price = reader.readDouble(offsets[0]);
+  object.price = reader.readLong(offsets[0]);
   object.quantity = reader.readLong(offsets[1]);
   object.title = reader.readString(offsets[2]);
   object.userLat = reader.readDouble(offsets[3]);
@@ -104,7 +104,7 @@ P _chineseeFoodItemDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readDouble(offset)) as P;
+      return (reader.readLong(offset)) as P;
     case 1:
       return (reader.readLong(offset)) as P;
     case 2:
@@ -269,58 +269,49 @@ extension ChineseeFoodItemQueryFilter
   }
 
   QueryBuilder<ChineseeFoodItem, ChineseeFoodItem, QAfterFilterCondition>
-      priceEqualTo(
-    double value, {
-    double epsilon = Query.epsilon,
-  }) {
+      priceEqualTo(int value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'price',
         value: value,
-        epsilon: epsilon,
       ));
     });
   }
 
   QueryBuilder<ChineseeFoodItem, ChineseeFoodItem, QAfterFilterCondition>
       priceGreaterThan(
-    double value, {
+    int value, {
     bool include = false,
-    double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
         property: r'price',
         value: value,
-        epsilon: epsilon,
       ));
     });
   }
 
   QueryBuilder<ChineseeFoodItem, ChineseeFoodItem, QAfterFilterCondition>
       priceLessThan(
-    double value, {
+    int value, {
     bool include = false,
-    double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
         property: r'price',
         value: value,
-        epsilon: epsilon,
       ));
     });
   }
 
   QueryBuilder<ChineseeFoodItem, ChineseeFoodItem, QAfterFilterCondition>
       priceBetween(
-    double lower,
-    double upper, {
+    int lower,
+    int upper, {
     bool includeLower = true,
     bool includeUpper = true,
-    double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
@@ -329,7 +320,6 @@ extension ChineseeFoodItemQueryFilter
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
-        epsilon: epsilon,
       ));
     });
   }
@@ -866,7 +856,7 @@ extension ChineseeFoodItemQueryProperty
     });
   }
 
-  QueryBuilder<ChineseeFoodItem, double, QQueryOperations> priceProperty() {
+  QueryBuilder<ChineseeFoodItem, int, QQueryOperations> priceProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'price');
     });

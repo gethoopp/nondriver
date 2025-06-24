@@ -25,7 +25,7 @@ const DeliveryStatusSchema = CollectionSchema(
     r'price': PropertySchema(
       id: 1,
       name: r'price',
-      type: IsarType.double,
+      type: IsarType.long,
     ),
     r'quantity': PropertySchema(
       id: 2,
@@ -85,7 +85,7 @@ void _deliveryStatusSerialize(
   Map<Type, List<int>> allOffsets,
 ) {
   writer.writeString(offsets[0], object.image);
-  writer.writeDouble(offsets[1], object.price);
+  writer.writeLong(offsets[1], object.price);
   writer.writeLong(offsets[2], object.quantity);
   writer.writeBool(offsets[3], object.statusDeliv);
   writer.writeString(offsets[4], object.title);
@@ -102,7 +102,7 @@ DeliveryStatus _deliveryStatusDeserialize(
   final object = DeliveryStatus();
   object.id = id;
   object.image = reader.readString(offsets[0]);
-  object.price = reader.readDouble(offsets[1]);
+  object.price = reader.readLong(offsets[1]);
   object.quantity = reader.readLong(offsets[2]);
   object.statusDeliv = reader.readBool(offsets[3]);
   object.title = reader.readString(offsets[4]);
@@ -121,7 +121,7 @@ P _deliveryStatusDeserializeProp<P>(
     case 0:
       return (reader.readString(offset)) as P;
     case 1:
-      return (reader.readDouble(offset)) as P;
+      return (reader.readLong(offset)) as P;
     case 2:
       return (reader.readLong(offset)) as P;
     case 3:
@@ -425,58 +425,49 @@ extension DeliveryStatusQueryFilter
   }
 
   QueryBuilder<DeliveryStatus, DeliveryStatus, QAfterFilterCondition>
-      priceEqualTo(
-    double value, {
-    double epsilon = Query.epsilon,
-  }) {
+      priceEqualTo(int value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'price',
         value: value,
-        epsilon: epsilon,
       ));
     });
   }
 
   QueryBuilder<DeliveryStatus, DeliveryStatus, QAfterFilterCondition>
       priceGreaterThan(
-    double value, {
+    int value, {
     bool include = false,
-    double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
         property: r'price',
         value: value,
-        epsilon: epsilon,
       ));
     });
   }
 
   QueryBuilder<DeliveryStatus, DeliveryStatus, QAfterFilterCondition>
       priceLessThan(
-    double value, {
+    int value, {
     bool include = false,
-    double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
         property: r'price',
         value: value,
-        epsilon: epsilon,
       ));
     });
   }
 
   QueryBuilder<DeliveryStatus, DeliveryStatus, QAfterFilterCondition>
       priceBetween(
-    double lower,
-    double upper, {
+    int lower,
+    int upper, {
     bool includeLower = true,
     bool includeUpper = true,
-    double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
@@ -485,7 +476,6 @@ extension DeliveryStatusQueryFilter
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
-        epsilon: epsilon,
       ));
     });
   }
@@ -1089,7 +1079,7 @@ extension DeliveryStatusQueryProperty
     });
   }
 
-  QueryBuilder<DeliveryStatus, double, QQueryOperations> priceProperty() {
+  QueryBuilder<DeliveryStatus, int, QQueryOperations> priceProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'price');
     });
