@@ -520,6 +520,8 @@ class _DashboardUserState extends State<DashboardUser> {
                     ],
                   ),
                 ),
+
+                // Row(children: [Text('Popular Meal Menu'), Text('See All')]),
               ],
             ),
           ),

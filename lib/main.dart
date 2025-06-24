@@ -26,7 +26,7 @@ void main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   // Init Isar
   await IsarService.init();
-  NotificationListenerLocal.init;
+  await NotificationListenerLocal().init();
   runApp(const MyApp());
 }
 
