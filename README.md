@@ -1,16 +1,14 @@
+
 # ondriver
 
-A new Flutter project.
+Aplikasi **ondriver** dibangun menggunakan Flutter. Aplikasi ini menggunakan **local storage [Isar](https://pub.dev/packages/isar)** untuk menyimpan data secara lokal, serta memanfaatkan package **[geolocator](https://pub.dev/packages/geolocator)** dan **[geocoding](https://pub.dev/packages/geocoding)** guna mendeteksi lokasi pengguna sebelum mereka memesan makanan.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+Beberapa referensi yang bisa membantu Anda memulai pengembangan Flutter:
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+* [Isar package (local NoSQL database)](https://pub.dev/packages/isar)
+* [Geolocator package (untuk GPS dan lokasi real-time)](https://pub.dev/packages/geolocator)
+* [Geocoding package (konversi koordinat ke alamat)](https://pub.dev/packages/geocoding)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
